@@ -1,0 +1,190 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Bus Problem Optimal Policy}
+\author{Richard Kohar}
+\date{December 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx, pgfplots, tikz, xcolor}
+\usepackage{amsmath}
+\pgfplotsset{compat=1.15}
+
+\usepackage{subfigure}
+
+\newcommand{\twocolour}{red}
+\newcommand{\threecolour}{blue}
+
+\begin{document}
+
+\maketitle
+
+\begin{figure}
+
+\subfigure[Stop 0]{\begin{tikzpicture}[>=stealth]
+\begin{axis}[width=0.65*\textwidth,
+                axis lines=middle,
+                axis equal,
+                xlabel=low,
+                ylabel=medium,
+                zlabel=high,
+                xmin=0,
+                xmax=1.25,
+                ymin=0,
+                ymax=1.25,
+                zmin=0,
+                zmax=2,
+                xtick={0,1},
+                ytick={0,1},
+                ztick={0,1},
+                view={135}{30}, thick]
+\addplot3[patch, color=\twocolour!50, fill opacity=0.75, faceted color=black, very thick] coordinates{(1,0,0) (0,1,0) (0,0,1)};
+\addplot3[mark=*] coordinates {(1,0,0)} node (s1') {};
+\addplot3[mark=*] coordinates {(0,1,0)} node (s2') {};
+\addplot3[mark=*] coordinates {(0,0,1)} node (s3') {};
+\addplot3[mark=*, color = \twocolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop0Action0.csv};
+\addplot3[mark=*, color = \threecolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop0Action1.csv};
+\node[above left, xshift=-2ex, yshift=2ex] (s1) at (1,0,0) {\footnotesize $\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+\node[above right, xshift=2ex, yshift=2ex] (s2) at (0,1,0) {\footnotesize $\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+\node[right, xshift=3ex] (s3) at (0,0,1) {\footnotesize $\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+\path[->] (s1) edge[bend left] (s1');
+\path[->] (s2) edge[bend right] (s2');
+\path[->] (s3) edge[bend right] (s3');
+\end{axis}
+\end{tikzpicture}
+}
+\subfigure[Stop 1]{
+\begin{tikzpicture}[>=stealth]
+\begin{axis}[width=0.65*\textwidth,
+                axis lines=middle,
+                axis equal,
+                xlabel=low,
+                ylabel=medium,
+                zlabel=high,
+                xmin=0,
+                xmax=1.25,
+                ymin=0,
+                ymax=1.25,
+                zmin=0,
+                zmax=2,
+                xtick={0,1},
+                ytick={0,1},
+                ztick={0,1},
+                view={135}{30}, thick]
+\addplot3[patch, color=\twocolour!50, fill opacity=0.75, faceted color=black, very thick] coordinates{(1,0,0) (0,1,0) (0,0,1)};
+\addplot3[mark=*] coordinates {(1,0,0)} node (s1') {};
+\addplot3[mark=*] coordinates {(0,1,0)} node (s2') {};
+\addplot3[mark=*] coordinates {(0,0,1)} node (s3') {};
+\addplot3[mark=*, color = \twocolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop1Action0.csv};
+\addplot3[mark=*, color = \threecolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop1Action1.csv};
+\node[above left, xshift=-2ex, yshift=2ex] (s1) at (1,0,0) {\footnotesize $\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+\node[above right, xshift=2ex, yshift=2ex] (s2) at (0,1,0) {\footnotesize $\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+\node[right, xshift=3ex] (s3) at (0,0,1) {\footnotesize $\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+\path[->] (s1) edge[bend left] (s1');
+\path[->] (s2) edge[bend right] (s2');
+\path[->] (s3) edge[bend right] (s3');
+\end{axis}
+\end{tikzpicture}
+}
+\subfigure[Stop 2]{
+\begin{tikzpicture}[>=stealth]
+\begin{axis}[width=0.65*\textwidth,
+                axis lines=middle,
+                axis equal,
+                xlabel=low,
+                ylabel=medium,
+                zlabel=high,
+                xmin=0,
+                xmax=1.25,
+                ymin=0,
+                ymax=1.25,
+                zmin=0,
+                zmax=2,
+                xtick={0,1},
+                ytick={0,1},
+                ztick={0,1},
+                view={135}{30}, thick]
+\addplot3[patch, color=\twocolour!50, fill opacity=0.75, faceted color=black, very thick] coordinates{(1,0,0) (0,1,0) (0,0,1)};
+\addplot3[mark=*] coordinates {(1,0,0)} node (s1') {};
+\addplot3[mark=*] coordinates {(0,1,0)} node (s2') {};
+\addplot3[mark=*] coordinates {(0,0,1)} node (s3') {};
+\addplot3[mark=*, color = \twocolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop2Action0.csv};
+\addplot3[mark=*, color = \threecolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop2Action1.csv};
+\node[above left, xshift=-2ex, yshift=2ex] (s1) at (1,0,0) {\footnotesize $\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+\node[above right, xshift=2ex, yshift=2ex] (s2) at (0,1,0) {\footnotesize $\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+\node[right, xshift=3ex] (s3) at (0,0,1) {\footnotesize $\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+\path[->] (s1) edge[bend left] (s1');
+\path[->] (s2) edge[bend right] (s2');
+\path[->] (s3) edge[bend right] (s3');
+\end{axis}
+\end{tikzpicture}
+}
+\subfigure[Stop 3]{
+\begin{tikzpicture}[>=stealth]
+\begin{axis}[width=0.65*\textwidth,
+                axis lines=middle,
+                axis equal,
+                xlabel=low,
+                ylabel=medium,
+                zlabel=high,
+                xmin=0,
+                xmax=1.25,
+                ymin=0,
+                ymax=1.25,
+                zmin=0,
+                zmax=2,
+                xtick={0,1},
+                ytick={0,1},
+                ztick={0,1},
+                view={135}{30}, thick]
+\addplot3[patch, color=\twocolour!50, fill opacity=0.75, faceted color=black, very thick] coordinates{(1,0,0) (0,1,0) (0,0,1)};
+\addplot3[mark=*] coordinates {(1,0,0)} node (s1') {};
+\addplot3[mark=*] coordinates {(0,1,0)} node (s2') {};
+\addplot3[mark=*] coordinates {(0,0,1)} node (s3') {};
+\addplot3[mark=*, color = \twocolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop3Action0.csv};
+\addplot3[mark=*, color = \threecolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop3Action1.csv};
+\node[above left, xshift=-2ex, yshift=2ex] (s1) at (1,0,0) {\footnotesize $\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+\node[above right, xshift=2ex, yshift=2ex] (s2) at (0,1,0) {\footnotesize $\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+\node[right, xshift=3ex] (s3) at (0,0,1) {\footnotesize $\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+\path[->] (s1) edge[bend left] (s1');
+\path[->] (s2) edge[bend right] (s2');
+\path[->] (s3) edge[bend right] (s3');
+\end{axis}
+\end{tikzpicture}
+}
+\subfigure[Stop 4]{
+\begin{tikzpicture}[>=stealth]
+\begin{axis}[width=0.65*\textwidth,
+                axis lines=middle,
+                axis equal,
+                xlabel=low,
+                ylabel=medium,
+                zlabel=high,
+                xmin=0,
+                xmax=1.25,
+                ymin=0,
+                ymax=1.25,
+                zmin=0,
+                zmax=2,
+                xtick={0,1},
+                ytick={0,1},
+                ztick={0,1},
+                view={135}{30}, thick]
+\addplot3[patch, color=\twocolour!50, fill opacity=0.75, faceted color=black, very thick] coordinates{(1,0,0) (0,1,0) (0,0,1)};
+\addplot3[mark=*] coordinates {(1,0,0)} node (s1') {};
+\addplot3[mark=*] coordinates {(0,1,0)} node (s2') {};
+\addplot3[mark=*] coordinates {(0,0,1)} node (s3') {};
+\addplot3[mark=*, color = \twocolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop4Action0.csv};
+\addplot3[mark=*, color = \threecolour, mark size = 1pt, only marks] table [x=i1, y=i2, z=i3, col sep=comma] {PolicyStop4Action1.csv};
+\node[above left, xshift=-2ex, yshift=2ex] (s1) at (1,0,0) {\footnotesize $\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+\node[above right, xshift=2ex, yshift=2ex] (s2) at (0,1,0) {\footnotesize $\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+\node[right, xshift=3ex] (s3) at (0,0,1) {\footnotesize $\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+\path[->] (s1) edge[bend left] (s1');
+\path[->] (s2) edge[bend right] (s2');
+\path[->] (s3) edge[bend right] (s3');
+\end{axis}
+\end{tikzpicture}
+}
+\caption{The optimal policy for the bus problem at each bus stop with a regular mesh of belief states in which intensity the agent believes. A red dot represents a belief whose optimal action is to continue riding the bus, and blue dot represents a belief whose optimal action is to stop riding the bus and take the bicycle.}
+\end{figure}
+\end{document}
